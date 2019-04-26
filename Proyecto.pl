@@ -24,8 +24,13 @@ while($op!=0){
             chomp ($nombreArchivo=<STDIN>);
             $direccion=$ruta."/".$nombreArchivo.".txt";
             if(open(my $archivo,"<$direccion")){
-                print "\nABIERTO CON EXITO\n\n";
-                print "Seleccione el metodo de encriptacion :\n";
+                print "\nARCHIVO:\n\n";
+                while(<$archivo>){
+                            chomp;
+                           $contenido= $_;
+                           say $contenido;
+                        }
+                print "SELECCIONES EL METODO DE ENCRIPTACION :\n";
                 print "1. Deslizamiento puro\n";
                 print "2. Deslizamiento puro con palabra clave\n";
                 print "3. Transposicion por grupos\n";
@@ -48,7 +53,7 @@ while($op!=0){
                                     $correcto=1;
                                     #NUMERO 1
                                 }default{
-                                    print "DATO INCORRECTO";
+                                    print "DATO INCORRECTO\n";
                                 }
                             }
                         }
