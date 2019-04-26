@@ -7,30 +7,40 @@ use feature "switch";
 
 print "\n PROYECTO#1 DE CRIPTOGRAFIA Y SEGURIDAD";
 my $op;my$n;my$correcto;
-my$ruta;my$nombreArchivo;my$direccion;my$contenido;my$palabraClave;
-$op=1;
-while($op!=0){
+my$ruta;my$nombreArchivo;my$direccion;my$contenido;my$palabraClave,my$archivo;
+$op=0;
+while($op==0){
     print "\n\nMENU: \n";
     print "1. Abrir un archivo para encriptar\n";
     print "2. Ingresar texto para encriptar\n";
     print "0. Salir\n";
     print "selecciona una opcion : ";
+    $correcto=0;
     chomp ($op=<STDIN>);
     given($op){
-        when($_ == 1){
-            print "Ruta de la carpeta del archivo : ";
-            chomp ($ruta=<STDIN>);
-            print "Nombre del archivo : ";
-            chomp ($nombreArchivo=<STDIN>);
-            $direccion=$ruta."/".$nombreArchivo.".txt";
-            if(open(my $archivo,"<$direccion")){
-                print "\nARCHIVO:\n\n";
-                while(<$archivo>){
-                            chomp;
-                           $contenido= $_;
-                           say $contenido;
-                        }
-                print "SELECCIONES EL METODO DE ENCRIPTACION :\n";
+        when($_ eq "1"){
+            while($correcto==0){
+                print "Ruta de la carpeta del archivo : ";
+                chomp ($ruta=<STDIN>);
+                print "Nombre del archivo : ";
+                chomp ($nombreArchivo=<STDIN>);
+                $direccion=$ruta."/".$nombreArchivo.".txt";
+                if(open($archivo,"<$direccion")){
+                    print "\nARCHIVO:\n";
+                    while(<$archivo>){
+                                chomp;
+                            $contenido= $_;
+                            say $contenido;
+                            }
+                    $correcto=1;
+                }else{
+                    print "\nARCHIVO NO EXISTE\n\n";
+                    $correcto=0;
+                }
+            }
+            $op=0;
+            while($op==0){
+                print "\n\nSELECCIONE EL METODO DE ENCRIPTACION :\n";
                 print "1. Deslizamiento puro\n";
                 print "2. Deslizamiento puro con palabra clave\n";
                 print "3. Transposicion por grupos\n";
@@ -40,70 +50,72 @@ while($op!=0){
                 print "7. Transposicion por zigzag\n";
                 print "8. Sustitucion mono alfabetica\n";
                 print "9. Sustitucion poli alfabetica\n";
-                print "selecciona una opcion : ";
+                print "\nselecciona una opcion : ";
                 chomp ($op=<STDIN>);
                 $correcto=0;
                 given($op){
                     when($_==1){
-                        while($correcto==0){
-                            print "Introduzca la cantidad de desplazamientos :";
-                            chomp($n=<STDIN>);
-                            given($n){
-                                when($_ > 0){
+                            print "\n1. DESLIZAMIENTO PURO \n";
+                            while($correcto==0){
+                                print "\nIntroduzca la cantidad de desplazamientos: ";
+                                chomp($n=<STDIN>);
+                                given($n){
+                                    when($_ > 0){
+                                        $correcto=1;
+                                        #NUMERO 1
+                                    }default{
+                                        print "DATO INCORRECTO\n";
+                                    }
+                                }
+                            }
+                        }when($_==2){
+                            print "\nIntroduzca la palabra clave :";
+                            chomp($palabraClave=<STDIN>);
+                            while($correcto==0){
+                                if(esPalabra($palabraClave)){
                                     $correcto=1;
-                                    #NUMERO 1
-                                }default{
-                                    print "DATO INCORRECTO\n";
+                                }else{
+                                    print "\nPALABRA NO VALIDA";
+                                }
+                            }
+                            $correcto=0;
+                            while($correcto==0){
+                                print "\nIntroduzca la cantidad de desplazamiento :";
+                                chomp($n=<STDIN>);
+                                given($n){
+                                    when($_ > 0){
+                                        $correcto=1;
+                                        #NUMERO 2
+                                    }default{
+                                        print "DATO INCORRECTO";
+                                    }
                                 }
                             }
                         }
-                    }when($_==2){
-                        print "\nIntroduzca la palabra clave :";
-                        chomp($palabraClave=<STDIN>);
-                        while($correcto==0){
-                            if(esPalabra($palabraClave)){
-                                $correcto=1;
-                            }else{
-                                print "\nPALABRA NO VALIDA";
-                            }
-                        }$correcto=0;
-                        while($correcto==0){
-                            print "\nIntroduzca la cantidad de desplazamiento :";
-                            chomp($n=<STDIN>);
-                            given($n){
-                                when($_ > 0){
-                                    $correcto=1;
-                                    #NUMERO 2
-                                }default{
-                                    print "DATO INCORRECTO";
-                                }
+                        default{
+                            while(<$archivo>){
+                                chomp;
+                            $contenido= $_;
+                            say $contenido;
                             }
                         }
                     }
-                    default{
-                        while(<$archivo>){
-                            chomp;
-                           $contenido= $_;
-                           say $contenido;
-                        }
-                    }
-                }
-                close($archivo);
-                print "\n\n1. Reiniciar programa\n";
-            print "0. Salir\n";
-            print "selecciona una opcion : ";
-            chomp ($op=<STDIN>);
-            }else{
-                print "\nARCHIVO NO EXISTE";
-            }
+                    close($archivo);
+                    print "\n\n1. Reiniciar programa\n";
+                print "0. Salir\n";
+                print "selecciona una opcion : ";
+                chomp ($op=<STDIN>);
         }
-        when($_==2){
+        when($_ eq "2"){
             print "\nIntroducir texto plano :";
             $contenido
         }
-        default{
-            print "OPCION INCORRECTA";
+        when($_ eq "0"){
+            print "\nADIOS\n";
             $op=1;
+        }default{
+            print "\nOPCION INCORRECTA\n\n";
+            $op=0;
         }
     }
 }
