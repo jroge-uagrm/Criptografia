@@ -60,7 +60,7 @@ while($op==0){
                                 print "\nIntroduzca la cantidad de desplazamientos: ";
                                 chomp($n=<STDIN>);
                                 given($n){
-                                    when($_ > 0){
+                                    when(esNumero($_)){
                                         $correcto=1;
                                         #NUMERO 1
                                     }default{
@@ -119,7 +119,9 @@ while($op==0){
         }
     }
 }
-
+sub esNumero(){
+    my($x)=@
+}
 
 
 
