@@ -8,8 +8,6 @@ use feature qw( switch );
 no if $] >= 5.018, warnings => qw( experimental::smartmatch );
 print"\n-------------------------------------------------\n";
 print"PROYECTO#1 DE CRIPTOGRAFIA Y SEGURIDAD         ||";
-my$cha="ñ";
-say(ord($cha));
 my $op;my$n;my$correcto;
 my$ruta;my$nombreArchivo;my$direccion;my$contenido;my$palabraClave;my$archivo;my$iniciar;
 $iniciar=1;
@@ -127,17 +125,39 @@ while($iniciar==1){
                                     print "Introduzca la cantidad de desplazamientos: ";chomp($n=<STDIN>);
                                     if(esNumero($n)){
                                         $correcto=1;
+                                        print "-----------------------------------------------||\n";
+                                        print "ARCHIVO ";
+                                        if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
                                         if(length($contenido)>0){
                                             #NUMERO 1
                                         }else{
+                                            my$archivoAux;my$nombreArchivoAux;
+                                            if($en==1){
+                                                $nombreArchivoAux=$nombreArchivo."ENCRIPTADO";
+                                            }else{
+                                                $nombreArchivoAux=$nombreArchivo."DESENCRIPTADO";
+                                            }
+                                            my$direccionAux=$ruta."/".$nombreArchivoAux.".txt";
+                                            open($archivoAux,">$direccionAux");
+                                            print$archivoAux "";
+                                            close($archivoAux);
+                                            open($archivoAux,">>$direccionAux");
                                             open($archivo,"<$direccion");
                                             while(<$archivo>){
                                                         chomp;
                                                     $contenido= $_;
-                                                    #NUMERO 1  say$contenido
+                                                    my$encriptacion;
+                                                    if($en==1){
+                                                        #$encriptacion=NUMERO 1
+                                                    }else{
+                                                        #$encriptacion=NUMERO 1
+                                                    }
+                                                    #say$encriptacion;
+                                                    #print $archivoAux $encriptacion;
                                             }
                                             close($archivo);
-                                            $correcto=1;
+                                            close($archivoAux);
+                                            print "-----------------------------------------------||\n";
                                         }
                                     }else{
                                         print"-------------------------------------------------\n";
@@ -165,16 +185,39 @@ while($iniciar==1){
                                     print "\nIntroduzca la cantidad de desplazamientos: ";chomp($n=<STDIN>);
                                     if(esNumero($n)){
                                         $correcto=1;
+                                        print "-----------------------------------------------||\n";
+                                        print "ARCHIVO ";
+                                        if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
                                         if(length($contenido)>0){
                                             #NUMERO 2
                                         }else{
+                                            my$archivoAux;my$nombreArchivoAux;
+                                            if($en==1){
+                                                $nombreArchivoAux=$nombreArchivo."ENCRIPTADO";
+                                            }else{
+                                                $nombreArchivoAux=$nombreArchivo."DESENCRIPTADO";
+                                            }
+                                            my$direccionAux=$ruta."/".$nombreArchivoAux.".txt";
+                                            open($archivoAux,">$direccionAux");
+                                            print$archivoAux "";
+                                            close($archivoAux);
+                                            open($archivoAux,">>$direccionAux");
                                             open($archivo,"<$direccion");
                                             while(<$archivo>){
                                                         chomp;
                                                     $contenido= $_;
-                                                    #NUMERO 2  say$contenido
+                                                    my$encriptacion;
+                                                    if($en==1){
+                                                        #$encriptacion=NUMERO 1
+                                                    }else{
+                                                        #$encriptacion=NUMERO 1
+                                                    }
+                                                    #say$encriptacion;
+                                                    #print $archivoAux $encriptacion;
                                             }
                                             close($archivo);
+                                            close($archivoAux);
+                                            print "-----------------------------------------------||\n";
                                         }
                                     }else{
                                         print"-------------------------------------------------\n";
@@ -192,16 +235,39 @@ while($iniciar==1){
                                     print "Introduzca su alfabeto: ";chomp($alfabeto=<STDIN>);
                                     if(esAlfabeto($alfabeto)){
                                         $correcto=1;
+                                        print "-----------------------------------------------||\n";
+                                        print "ARCHIVO ";
+                                        if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
                                         if(length($contenido)>0){
                                             say Mono($contenido,$alfabeto);
                                         }else{
+                                            my$archivoAux;my$nombreArchivoAux;
+                                            if($en==1){
+                                                $nombreArchivoAux=$nombreArchivo."ENCRIPTADO";
+                                            }else{
+                                                $nombreArchivoAux=$nombreArchivo."DESENCRIPTADO";
+                                            }
+                                            my$direccionAux=$ruta."/".$nombreArchivoAux.".txt";
+                                            open($archivoAux,">$direccionAux");
+                                            print$archivoAux "";
+                                            close($archivoAux);
+                                            open($archivoAux,">>$direccionAux");
                                             open($archivo,"<$direccion");
                                             while(<$archivo>){
                                                         chomp;
                                                     $contenido= $_;
-                                                    say Mono($contenido,$alfabeto);
+                                                    my$encriptacion;
+                                                    if($en==1){
+                                                        $encriptacion=mono($contenido,$alfabeto);
+                                                    }else{
+                                                        $encriptacion=desMono($contenido,$alfabeto);
+                                                    }
+                                                    say$encriptacion;
+                                                    print $archivoAux $encriptacion;
                                             }
                                             close($archivo);
+                                            close($archivoAux);
+                                            print "-----------------------------------------------||\n";
                                         }
                                     }else{
                                         print"-------------------------------------------------\n";
@@ -218,9 +284,6 @@ while($iniciar==1){
                             }
                     }
                 }
-                print "-----------------------------------------------||\n";
-                print "\nENCRIPTADO!\n\n";
-                print "-----------------------------------------------||\n";
                 $correcto=0;
                 while($correcto==0){
                     print "\n1. Volver a ejecutar el programa\n";
