@@ -157,7 +157,7 @@ while($iniciar==1){
                                                         #$encriptacion=NUMERO 1
                                                     }
                                                     #say$encriptacion;
-                                                    #print $archivoAux $encriptacion;
+                                                    #print $archivoAux $encriptacion."\n";
                                             }
                                             close($archivo);
                                             close($archivoAux);
@@ -221,7 +221,7 @@ while($iniciar==1){
                                                         #$encriptacion=NUMERO 1
                                                     }
                                                     #say$encriptacion;
-                                                    #print $archivoAux $encriptacion;
+                                                    #print $archivoAux $encriptacion."\n";
                                             }
                                             close($archivo);
                                             close($archivoAux);
@@ -275,7 +275,7 @@ while($iniciar==1){
                                                         $encriptacion=desMono($contenido,$alfabeto);
                                                     }
                                                     say$encriptacion;
-                                                    print $archivoAux $encriptacion;
+                                                    print $archivoAux $encriptacion."\n";
                                             }
                                             close($archivo);
                                             close($archivoAux);
@@ -371,8 +371,7 @@ sub mono{
         $nuevoTexto=$nuevoTexto.$cha;
     }
     return $nuevoTexto;
-}
-sub desMono{
+}sub desMono{
     my ($texto,$nuevoAlfabeto)=@_;
     my$nuevoTexto;
     my$n=length($texto);
@@ -406,6 +405,5 @@ sub desMono{
         }
         $nuevoTexto=$nuevoTexto.$cha;
     }
-    return $nuevoTexto;
-}
+    return $nuevoTexto;}
 #-----------------------------------------------NUMERO 9------------------------------------------
