@@ -62,10 +62,12 @@ sub masUno{
 #<leer >sobreescribir >>añadir
 # open(my $archivo,'>>c:/encriptaciones/a.txt')||die"ARCHIVO NO EXISTE\n";
 # print $archivo "Ejemplo";
-# # close($archivo);
+#  close($archivo);
 # my $nombre;
 # chomp($nombre=<STDIN>);
 # #chomp es para eliminar el ultimo caracter que instroduzco
 # #Es decir el enter
 # say $nombre;
 print chr(65);#Muestra el el caracter 65
+#lc("HOLA") hace las letras a minuscula
+#uc("hola") hace las letras a mayuscula

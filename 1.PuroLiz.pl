@@ -8,14 +8,13 @@ use feature "switch";
 
 print "Introducir texto : ";
 
-my $desplazar=3;
+my $desplazar=1;
 my $texto=<STDIN>;
 chop($texto);
 my $nuevo=Puro($texto,$desplazar);
 my $desencriptado=Desencriptar($nuevo,$desplazar);
 say $nuevo;
 say $desencriptado;
-
 sub Puro{
     my ($texto,$desplazar)=@_;
     my $cantidadLetras=length($texto);
