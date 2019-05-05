@@ -129,7 +129,11 @@ while($iniciar==1){
                                         print "ARCHIVO ";
                                         if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
                                         if(length($contenido)>0){
-                                            #NUMERO 1
+                                            if($en==1){
+                                                #NUMERO 1
+                                            }else{
+                                                #NUMERO 1
+                                            }
                                         }else{
                                             my$archivoAux;my$nombreArchivoAux;
                                             if($en==1){
@@ -189,7 +193,11 @@ while($iniciar==1){
                                         print "ARCHIVO ";
                                         if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
                                         if(length($contenido)>0){
-                                            #NUMERO 2
+                                            if($en==1){
+                                                #NUMERO 2   
+                                            }else{
+                                                #NUMERO 2
+                                            }
                                         }else{
                                             my$archivoAux;my$nombreArchivoAux;
                                             if($en==1){
@@ -239,7 +247,11 @@ while($iniciar==1){
                                         print "ARCHIVO ";
                                         if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
                                         if(length($contenido)>0){
-                                            say Mono($contenido,$alfabeto);
+                                            if($en==1){
+                                                say mono($contenido,$alfabeto);
+                                            }else{
+                                                say desMono($contenido,$alfabeto);
+                                            }
                                         }else{
                                             my$archivoAux;my$nombreArchivoAux;
                                             if($en==1){
@@ -267,7 +279,7 @@ while($iniciar==1){
                                             }
                                             close($archivo);
                                             close($archivoAux);
-                                            print "-----------------------------------------------||\n";
+                                            print "\n-----------------------------------------------||\n";
                                         }
                                     }else{
                                         print"-------------------------------------------------\n";
@@ -333,7 +345,7 @@ sub mono{
         $nuevoTexto="";
     }else{
         my$cha=chop($texto);
-        $nuevoTexto=Mono($texto,$nuevoAlfabeto);
+        $nuevoTexto=mono($texto,$nuevoAlfabeto);
         my$asi=index("abcdefghijklmn".chr(164)."opqrstuvwxyz",$cha);
         my$bol=0;
         if($asi<0){
@@ -368,31 +380,31 @@ sub desMono{
         $nuevoTexto="";
     }else{
         my$cha=chop($texto);
-        if(ord($cha) eq 177){
-            $cha=chop($texto);
-        }
-        $nuevoTexto=Mono($texto,$nuevoAlfabeto);
+        $nuevoTexto=desMono($texto,$nuevoAlfabeto);
         my$asi=index($nuevoAlfabeto,$cha);
         my$bol=0;
         if($asi<0){
             $bol=1;
-            $cha=(lc($cha));
+            if(ord($cha)==165){
+                $cha=chr(164);
+            }else{
+                $cha=(lc($cha));
+            }
             $asi=index($nuevoAlfabeto,$cha);
         }
         if($asi>=0){
-            $nuevoAlfabeto="abcdefghijklmn".chr(195)."opqrstuvwxyz";
+            my$alfabetoReal="abcdefghijklmn".chr(164)."opqrstuvwxyz";
             for(my $i=1;$i<=27-$asi;$i++){
-                $cha=chop($nuevoAlfabeto);
+                $cha=chop($alfabetoReal);
             }
             if($bol==1){
+                if(ord($cha) eq 164){
+                    $cha=chr(165);
+                }
                 $cha=uc($cha);
             }
         }
-        if(ord($cha)==195){
-            $nuevoTexto=$nuevoTexto."ñ";
-        }else{
-            $nuevoTexto=$nuevoTexto.$cha;
-        }
+        $nuevoTexto=$nuevoTexto.$cha;
     }
     return $nuevoTexto;
 }
