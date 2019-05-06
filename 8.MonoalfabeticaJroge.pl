@@ -1,9 +1,11 @@
 #!C:\xampp\perl\bin
-use warnings;
+#use warnings;
 use strict;
-#use utf8;
+use utf8;
 use 5.010;#Para say
 use feature "switch";
+use feature qw( switch );
+no if $] >= 5.018, warnings => qw( experimental::smartmatch );
 my$nuevoAlfabeto="rbcdefghijklmnñopqsatuvwxyz";
 my $texto="a";
 my $nuevo=Mono($texto,$nuevoAlfabeto);
