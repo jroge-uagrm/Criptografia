@@ -121,6 +121,7 @@ while($iniciar==1){
                     print "SELECCIONA UNA OPCION: ";chomp ($op=<STDIN>);
                     $correcto=0;
                     given($op){
+                            #TERMINADO
                             when($_ eq "1"){
                                 $op=1;
                                 while($correcto==0){
@@ -134,9 +135,9 @@ while($iniciar==1){
                                         if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
                                         if(length($contenido)>0){
                                             if($en==1){
-                                                #NUMERO 1
+                                                say puro($contenido,$n);
                                             }else{
-                                                #NUMERO 1
+                                                say desPuro($contenido,$n);
                                             }
                                         }else{
                                             my$archivoAux;my$nombreArchivoAux;
@@ -156,12 +157,12 @@ while($iniciar==1){
                                                     $contenido= $_;
                                                     my$encriptacion;
                                                     if($en==1){
-                                                        #$encriptacion=NUMERO 1
+                                                        $encriptacion=puro($contenido,$n);
                                                     }else{
-                                                        #$encriptacion=NUMERO 1
+                                                        $encriptacion=desPuro($contenido,$n);
                                                     }
-                                                    #say$encriptacion;
-                                                    #print $archivoAux $encriptacion."\n";
+                                                    say$encriptacion;
+                                                    print $archivoAux $encriptacion."\n";
                                             }
                                             close($archivo);
                                             close($archivoAux);
@@ -431,7 +432,125 @@ sub charIn{
         }
     }
 }
+sub CadToArraySinR{
+	my ($palabra)= @_;
+	my @arreglo= split("",$palabra);
+	foreach $caracter ( @arreglo ) {
+		push @nuevo_array, $caracter if not $visto_antes{$caracter}++;
+	}
+	my $string = join("",@nuevo_array);
+}
+sub generarAlfabeto{
+	my($desplazamiento)=@_;
+	my $alfabeto="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	my $cantEle=length($alfabeto);
+	my $previa2=""; my $previa="";
+	if ($desplazamiento<=$cantEle){
+		$previa=substr($alfabeto,$desplazamiento,$cantEle);
+		$previa2=substr($alfabeto,0,$desplazamiento);
+	}else{
+		my $nuevapos= $desplazamiento % $cantEle;
+		$previa=substr($alfabeto,$nuevapos+1,$cantEle);
+		$previa2=substr($alfabeto,0,$nuevapos+1);
+	}
+	$alfabetoG= $previa."".$previa2."\n";
+}
+sub generarAlfConPalD{
+	my ($palabra,$desplazamiento)=@_;
+	my $newpalabra=CadToArraySinR($palabra);
+	my $alfabetoD=generarAlfabeto($desplazamiento);
+	my $newpalabra1="";
+	
+	#concatenamos
+	$newpalabra1=$newpalabra.$alfabetoD;
+	
+	#eliminamos repetidos 
+	my $nuevo_alf=CadToArraySinR($newpalabra1);
+}
+
 #-----------------------------------------------NUMERO 1------------------------------------------
+sub puro{
+    my ($texto,$desplazar)=@_;
+    my $cantidadLetras=length($texto);
+    my $nuevoTexto = "";
+    for (my $i=1;$i<=$cantidadLetras;$i++){
+        my $char=chop($texto);
+        my $valorAscii=ord($char);
+        if ($valorAscii!=50){ #Si es diferente de espacio
+            if ($valorAscii==165){ #Si es la Ñ
+                $valorAscii=81;
+            }else{
+                if ($valorAscii==164){ #Si es la ñ
+                    $valorAscii=113;
+                }else{
+                    if ($valorAscii<=90 && $valorAscii>=65){ #Si es una letra mayuscula
+                        if ($valorAscii==76){ #Si es la L
+                            $valorAscii=165;
+                        }else{
+                            $valorAscii=(($valorAscii-65+$desplazar)% 26)+65;
+                            if ($valorAscii==80 || $valorAscii==81){ #Si es M o N
+                                $valorAscii=$valorAscii-1;
+                            }
+                        }
+                    }
+                    if ($valorAscii<=122 && $valorAscii>=97){
+                        if ($valorAscii==108){
+                            $valorAscii=164;
+                        }else{
+                            $valorAscii=(($valorAscii-97+$desplazar)% 26)+97;
+                            if($valorAscii==112 || $valorAscii==113){
+                                $valorAscii=$valorAscii-1;
+                            }                        
+                        }
+                    }
+                    
+                }
+            }
+        }
+        $nuevoTexto=chr($valorAscii).''.$nuevoTexto;
+    }
+    $nuevoTexto;
+}sub desPuro{
+    my ($texto,$desplazar)=@_;
+    my $cantidadLetras=length($texto);
+    my $nuevoTexto = "";
+    for (my $i=1;$i<=$cantidadLetras;$i++){
+        my $char=chop($texto);
+        my $valorAscii=ord($char);
+        if ($valorAscii!=50){
+            if ($valorAscii==165){
+                $valorAscii=76;
+            }else{
+                if ($valorAscii==164){
+                    $valorAscii=108;
+                }else{
+                    if ($valorAscii<=90 && $valorAscii>=65){
+                        if ($valorAscii==81){
+                            $valorAscii=165;
+                        }else{
+                            $valorAscii=(($valorAscii-65-$desplazar)% 26)+65;
+                            if ($valorAscii==76 || $valorAscii==77){
+                                $valorAscii=$valorAscii+1;
+                            }
+                        }
+                    }
+                    if ($valorAscii<=122 && $valorAscii>=97){
+                        if ($valorAscii==113){
+                            $valorAscii=164;
+                        }else{
+                            $valorAscii=(($valorAscii-97-$desplazar)% 26)+97;
+                            if($valorAscii==108 || $valorAscii==109){
+                                $valorAscii=$valorAscii+1;
+                            }                        
+                        }
+                    }
+                    
+                }
+            }
+        }
+        $nuevoTexto=chr($valorAscii).''.$nuevoTexto;
+    }
+    $nuevoTexto;}
 #-----------------------------------------------NUMERO 2------------------------------------------
 #-----------------------------------------------NUMERO 3------------------------------------------
 #-----------------------------------------------NUMERO 4------------------------------------------
