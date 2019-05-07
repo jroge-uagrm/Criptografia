@@ -1,4 +1,3 @@
-
 ###############################################################################
 sub CadToArraySinR{
 	my ($palabra)= @_;
@@ -24,6 +23,7 @@ sub generarAlfabeto{
 	}
 	$alfabetoG= $previa."".$previa2."\n";
 }
+
 sub generarAlfConPalD{
 	my ($palabra,$desplazamiento)=@_;
 	my $newpalabra=CadToArraySinR($palabra);
@@ -40,8 +40,8 @@ sub generarAlfConPalD{
 #########################################################################################################
 
 ##ALGORITMO PRINCIPAL
-sub Main{
-	my ($mensaje,$palabra,$desplazamiento,$sw)=@_;
+sub cifrarCesarP{
+	my ($mensaje,$palabra,$desplazamiento)=@_;
 	#utilizando el split para separar letra por letra 
 	my @names= split("",$mensaje);
 	my $alfabeto="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -50,7 +50,6 @@ sub Main{
 	my @NAlf= split("",$NAlfA);
 	my $newcad="";
 	
-	if($sw==0){
 	#cifrar
 		foreach my $i (0 .. $#names) {
 		  foreach my $j(0 .. $#NAlf){
@@ -59,8 +58,24 @@ sub Main{
 			}
 		  }
 		}
-	}else{
-	#decifrar
+
+	return $newcad;
+}
+#$mensaje,$palabra,$desplazamiento
+cifrarCesarP("HOLACOMOESTAS","CASA",15);
+
+
+sub descifrarCesarP{
+	my ($mensaje,$palabra,$desplazamiento)=@_;
+	#utilizando el split para separar letra por letra 
+	my @names= split("",$mensaje);
+	my $alfabeto="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	my @alfb= split("",$alfabeto);
+	my $NAlfA =generarAlfConPalD($palabra,$desplazamiento);
+	my @NAlf= split("",$NAlfA);
+	my $newcad="";
+	
+	#descifrar
 		foreach my $i (0 .. $#names) {
 		  foreach my $j(0 .. $#alfb){
 			if($names[$i]eq $alfb[$j]){
@@ -68,8 +83,8 @@ sub Main{
 			}
 		  }
 		}
-	}
-	print $newcad;
+	
+	return $newcad;
 }
 #$mensaje,$palabra,$desplazamiento,$sw
-Main("HOLACOMOESTAS","CASA",15,0);
+descifrarCesarP("SZWBAZXZPCGBC","CASA",15,0);

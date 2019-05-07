@@ -24,6 +24,8 @@ say $desencriptado;
 
 sub Polialfabetico{
     my ($texto,$clave)=@_;
+    $texto=InvertirTexto($texto);
+    $clave=InvertirTexto($clave);
     my $cantidadLetras=length($texto);
     my $nuevoTexto="";
     for (my $i=1;$i<=$cantidadLetras;$i++){
@@ -50,6 +52,8 @@ sub Polialfabetico{
 
 sub Desencriptar{
     my ($texto,$clave)=@_;
+    $texto=InvertirTexto($texto);
+    $clave=InvertirTexto($clave);
     my $cantidadLetras=length($texto);
     my $nuevoTexto="";
     for (my $i=1;$i<=$cantidadLetras;$i++){
@@ -82,5 +86,5 @@ sub InvertirTexto{
     for (my $i=1;$i<=$cantidad;$i++){
         $textoInvertido=$textoInvertido.chop($textoAInvertir);
     }
-    $textoInvertido;
+    return $textoInvertido;
 }

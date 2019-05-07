@@ -121,7 +121,6 @@ while($iniciar==1){
                     print "SELECCIONA UNA OPCION: ";chomp ($op=<STDIN>);
                     $correcto=0;
                     given($op){
-                            #TERMINADO
                             when($_ eq "1"){
                                 $op=1;
                                 while($correcto==0){
@@ -227,6 +226,169 @@ while($iniciar==1){
                                                     }
                                                     #say$encriptacion;
                                                     #print $archivoAux $encriptacion."\n";
+                                            }
+                                            close($archivo);
+                                            close($archivoAux);
+                                            print "-----------------------------------------------||\n";
+                                        }
+                                    }else{
+                                        print"-------------------------------------------------\n";
+                                        print "DATO INCORRECTO\n";
+                                        print"-------------------------------------------------\n";
+                                        $correcto=0;
+                                    }
+                                }
+                            }
+                            when($_ eq "4"){
+                                $op=1;
+                                while($correcto==0){
+                                    print "-----------------------------------------------||\n";
+                                    print "4. TRANSPOSICION POR SERIES\n";
+                                        print "-----------------------------------------------||\n";
+                                        print "ARCHIVO ";
+                                        if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
+                                        if(length($contenido)>0){
+                                            if($en==1){
+                                                say serie($contenido,$n);
+                                            }else{
+                                                say desSerie($contenido,$n);
+                                            }
+                                        }else{
+                                            my$archivoAux;my$nombreArchivoAux;
+                                            if($en==1){
+                                                $nombreArchivoAux=$nombreArchivo."ENCRIPTADO";
+                                            }else{
+                                                $nombreArchivoAux=$nombreArchivo."DESENCRIPTADO";
+                                            }
+                                            my$direccionAux=$ruta."/".$nombreArchivoAux.".txt";
+                                            open($archivoAux,">$direccionAux");
+                                            print$archivoAux "";
+                                            close($archivoAux);
+                                            open($archivoAux,">>$direccionAux");
+                                            open($archivo,"<$direccion");
+                                            while(<$archivo>){
+                                                        chomp;
+                                                    $contenido= $_;
+                                                    my$encriptacion;
+                                                    if($en==1){
+                                                        $encriptacion=serie($contenido,$n);
+                                                    }else{
+                                                        $encriptacion=desSerie($contenido,$n);
+                                                    }
+                                                    say$encriptacion;
+                                                    print $archivoAux $encriptacion."\n";
+                                            }
+                                            close($archivo);
+                                            close($archivoAux);
+                                            print "-----------------------------------------------||\n";
+                                        }
+                                }
+                            }
+                            when($_ eq "5"){
+                                $op=1;
+                                while($correcto==0){
+                                    print "-----------------------------------------------||\n";
+                                    print "5. TRANSPOSICION POR COLUMNAS\n";
+                                    print "Introduzca la cantidad de desplazamientos: ";chomp($n=<STDIN>);
+                                    if(esNumero($n)){
+                                        $correcto=1;
+                                        print "-----------------------------------------------||\n";
+                                        print "ARCHIVO ";
+                                        if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
+                                        if(length($contenido)>0){
+                                            if($en==1){
+                                                say columnas($contenido,$n);
+                                            }else{
+                                                say desColumnas($contenido,$n);
+                                            }
+                                        }else{
+                                            my$archivoAux;my$nombreArchivoAux;
+                                            if($en==1){
+                                                $nombreArchivoAux=$nombreArchivo."ENCRIPTADO";
+                                            }else{
+                                                $nombreArchivoAux=$nombreArchivo."DESENCRIPTADO";
+                                            }
+                                            my$direccionAux=$ruta."/".$nombreArchivoAux.".txt";
+                                            open($archivoAux,">$direccionAux");
+                                            print$archivoAux "";
+                                            close($archivoAux);
+                                            open($archivoAux,">>$direccionAux");
+                                            open($archivo,"<$direccion");
+                                            while(<$archivo>){
+                                                        chomp;
+                                                    $contenido= $_;
+                                                    my$encriptacion;
+                                                    if($en==1){
+                                                        $encriptacion=columnas($contenido,$n);
+                                                    }else{
+                                                        $encriptacion=desColumnas($contenido,$n);
+                                                    }
+                                                    say$encriptacion;
+                                                    print $archivoAux $encriptacion."\n";
+                                            }
+                                            close($archivo);
+                                            close($archivoAux);
+                                            print "-----------------------------------------------||\n";
+                                        }
+                                    }else{
+                                        print"-------------------------------------------------\n";
+                                        print "DATO INCORRECTO\n";
+                                        $correcto=0;
+                                    }
+                                }
+                            }
+                            when($_ eq "6"){
+                                $op=1;
+                                while($correcto==0){
+                                    print "-----------------------------------------------||\n";
+                                    print "6. TRANSPOSICION POR FILAS\n";
+                                    print "Introduzca el caracter clave: ";chomp($palabraClave=<STDIN>);
+                                    if(esPalabra($palabraClave)){
+                                        $correcto=1;
+                                    }else{
+                                        print"-------------------------------------------------\n";
+                                        print "CARACTER NO VALIDO\n";
+                                        $correcto=0;
+                                    }
+                                }
+                                $correcto=0;
+                                while($correcto==0){
+                                    print "\nIntroduzca n: ";chomp($n=<STDIN>);
+                                    if(esNumero($n)){
+                                        $correcto=1;
+                                        print "-----------------------------------------------||\n";
+                                        print "ARCHIVO ";
+                                        if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
+                                        if(length($contenido)>0){
+                                            if($en==1){
+                                                say filas($contenido,$n,$palabraClave);
+                                            }else{
+                                                say desFilas($contenido,$n,$palabraClave);
+                                            }
+                                        }else{
+                                            my$archivoAux;my$nombreArchivoAux;
+                                            if($en==1){
+                                                $nombreArchivoAux=$nombreArchivo."ENCRIPTADO";
+                                            }else{
+                                                $nombreArchivoAux=$nombreArchivo."DESENCRIPTADO";
+                                            }
+                                            my$direccionAux=$ruta."/".$nombreArchivoAux.".txt";
+                                            open($archivoAux,">$direccionAux");
+                                            print$archivoAux "";
+                                            close($archivoAux);
+                                            open($archivoAux,">>$direccionAux");
+                                            open($archivo,"<$direccion");
+                                            while(<$archivo>){
+                                                        chomp;
+                                                    $contenido= $_;
+                                                    my$encriptacion;
+                                                    if($en==1){
+                                                        $encriptacion=filas($contenido,$n,$palabraClave);
+                                                    }else{
+                                                        $encriptacion=desFilas($contenido,$n,$palabraClave);
+                                                    }
+                                                    say$encriptacion;
+                                                    print $archivoAux $encriptacion."\n";
                                             }
                                             close($archivo);
                                             close($archivoAux);
@@ -347,6 +509,59 @@ while($iniciar==1){
                                 }
                                 $op=1;
                             }
+                            when($_ eq "9"){
+                                $op=1;
+                                while($correcto==0){
+                                    print "-----------------------------------------------||\n";
+                                    print "9. SUSTITUCION POLIALFABETICA\n";
+                                    print "Introduzca la palabra clave: ";chomp($palabraClave=<STDIN>);
+                                    if(esPalabra($palabraClave)){
+                                        $correcto=1;
+                                        print "-----------------------------------------------||\n";
+                                        print "ARCHIVO ";
+                                        if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
+                                        if(length($contenido)>0){
+                                            if($en==1){
+                                                say poli($contenido,$palabraClave);
+                                            }else{
+                                                say desPoli($contenido,$palabraClave);
+                                            }
+                                        }else{
+                                            my$archivoAux;my$nombreArchivoAux;
+                                            if($en==1){
+                                                $nombreArchivoAux=$nombreArchivo."ENCRIPTADO";
+                                            }else{
+                                                $nombreArchivoAux=$nombreArchivo."DESENCRIPTADO";
+                                            }
+                                            my$direccionAux=$ruta."/".$nombreArchivoAux.".txt";
+                                            open($archivoAux,">$direccionAux");
+                                            print$archivoAux "";
+                                            close($archivoAux);
+                                            open($archivoAux,">>$direccionAux");
+                                            open($archivo,"<$direccion");
+                                            while(<$archivo>){
+                                                        chomp;
+                                                    $contenido= $_;
+                                                    my$encriptacion;
+                                                    if($en==1){
+                                                        $encriptacion=poli($contenido,$palabraClave);
+                                                    }else{
+                                                        $encriptacion=desPoli($contenido,$palabraClave);
+                                                    }
+                                                    say$encriptacion;
+                                                    print $archivoAux $encriptacion."\n";
+                                            }
+                                            close($archivo);
+                                            close($archivoAux);
+                                            print "-----------------------------------------------||\n";
+                                        }
+                                    }else{
+                                        print"-------------------------------------------------\n";
+                                        print "DATO INCORRECTO\n";
+                                        print"-------------------------------------------------\n";
+                                        $correcto=0;
+                                    }
+                            }}
                             default{
                                 print "-----------------------------------------------||\n";
                                 print "OPCION INCORRECTA";
@@ -443,29 +658,6 @@ sub charIn{
         }
     }
 }
-sub CadToArraySinR{
-	my ($palabra)= @_;
-	my @arreglo= split("",$palabra);
-	foreach $caracter ( @arreglo ) {
-		push @nuevo_array, $caracter if not $visto_antes{$caracter}++;
-	}
-	my $string = join("",@nuevo_array);
-}
-sub generarAlfabeto{
-	my($desplazamiento)=@_;
-	my $alfabeto="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	my $cantEle=length($alfabeto);
-	my $previa2=""; my $previa="";
-	if ($desplazamiento<=$cantEle){
-		$previa=substr($alfabeto,$desplazamiento,$cantEle);
-		$previa2=substr($alfabeto,0,$desplazamiento);
-	}else{
-		my $nuevapos= $desplazamiento % $cantEle;
-		$previa=substr($alfabeto,$nuevapos+1,$cantEle);
-		$previa2=substr($alfabeto,0,$nuevapos+1);
-	}
-	$alfabetoG= $previa."".$previa2."\n";
-}
 sub generarAlfConPalD{
 	my ($palabra,$desplazamiento)=@_;
 	my $newpalabra=CadToArraySinR($palabra);
@@ -485,8 +677,55 @@ sub InvertirTexto{
     for (my $i=1;$i<=$cantidad;$i++){
         $textoInvertido=$textoInvertido.chop($textoAInvertir);
     }
-    $textoInvertido;
+    return $textoInvertido;
 }
+sub newPalabra{
+	my($mensaje,$nfilas,$caracter)=@_;
+	my $longitud= length($mensaje);
+	my $ntotal=0;
+	#para concatenar
+	my $sub="";
+    my$substring="";
+	my $new="";
+	my $sw=0;
+	if($longitud>9){
+		my $div= $longitud / $nfilas;
+		if($div!=$nfilas){
+			$div=$div+1;
+		}
+		my $total= $div * $nfilas;
+		$ntotal= $total-$longitud;
+	}
+	if($longitud <$nfilas){
+		$ntotal=$nfilas-$longitud;
+	}
+	
+	if( $longitud>$nfilas && $longitud<10){
+		my $modulo= $longitud%$nfilas;
+		if($modulo==0){
+			$sw=1;
+		}else{
+			$ntotal= $nfilas-$modulo;
+		}
+	}
+
+	#generando la cadena para concatenar
+	
+	if($ntotal!=0){
+		my $ntotalaux=$ntotal;
+		while($ntotalaux!=0){
+			$substring=$substring.$caracter;
+			$ntotalaux=$ntotalaux-1;
+		}
+	}
+	if($sw==1 || $ntotal==0){
+		$new=$mensaje;
+	}else{
+		$new=$mensaje.$substring;
+	}
+	#my $news=length($new);
+}
+
 #-----------------------------------------------NUMERO 1------------------------------------------
 sub puro{
     my ($texto,$desplazar)=@_;
@@ -521,7 +760,49 @@ sub puro{
     }
     $nuevoTexto;}
 #-----------------------------------------------NUMERO 2------------------------------------------
+sub puroPalabra{
+	my ($mensaje,$palabra,$desplazamiento)=@_;
+	#utilizando el split para separar letra por letra 
+	my @names= split("",$mensaje);
+	my $alfabeto="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	my @alfb= split("",$alfabeto);
+	my $NAlfA =generarAlfConPalD($palabra,$desplazamiento);
+	my @NAlf= split("",$NAlfA);
+	my $newcad="";
+	
+	#cifrar
+		foreach my $i (0 .. $#names) {
+		  foreach my $j(0 .. $#NAlf){
+			if($names[$i]eq $NAlf[$j]){
+				$newcad=$newcad.$alfb[$j];
+			}
+		  }
+		}
+
+	return $newcad;
+}sub descifrarCesarP{
+	my ($mensaje,$palabra,$desplazamiento)=@_;
+	#utilizando el split para separar letra por letra 
+	my @names= split("",$mensaje);
+	my $alfabeto="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	my @alfb= split("",$alfabeto);
+	my $NAlfA =generarAlfConPalD($palabra,$desplazamiento);
+	my @NAlf= split("",$NAlfA);
+	my $newcad="";
+	
+	#descifrar
+		foreach my $i (0 .. $#names) {
+		  foreach my $j(0 .. $#alfb){
+			if($names[$i]eq $alfb[$j]){
+				$newcad=$newcad.$NAlf[$j];
+			}
+		  }
+		}
+	
+	return $newcad;}
 #-----------------------------------------------NUMERO 3------------------------------------------
+
+
 #-----------------------------------------------NUMERO 4------------------------------------------
 sub serie{
     my($texto)=@_;
@@ -619,6 +900,49 @@ sub columnas{
     }
     $nuevoTexto;}
 #-----------------------------------------------NUMERO 6------------------------------------------
+sub filas{
+	my($mensaje1,$nfilas,$caracter)=@_;
+	my $c=0;
+	my $newstring="";
+	my $mensaje= newPalabra($mensaje1,$nfilas,$caracter);
+	my $longitud= length($mensaje);
+		while($c!=$nfilas){
+			my $newmensaje=$mensaje;
+			if($c!=0){
+				$newmensaje=substr($mensaje,$c,$longitud);
+			}	
+			my @names= split("",$newmensaje);
+			foreach my$i (0 .. $#names) {
+				my$i1=$i+1;
+				if($i1%$nfilas==1){
+					$newstring=$newstring.$names[$i];
+				}		
+			}
+			$c=$c+1;
+		}
+	return $newstring;
+}sub desFilas{
+	my($mensaje1,$nfilas,$caracter)=@_;
+	my $c=0;
+	my $newstring="";
+	my $mensaje= newPalabra($mensaje1,$nfilas,$caracter);
+	my $longitud= length($mensaje);
+		while($c!=$nfilas){
+			my $newmensaje=$mensaje;
+			if($c!=0){
+				$newmensaje=substr($mensaje,$c,$longitud);
+			}	
+			my @names= split("",$newmensaje);
+			foreach my $i (0 .. $#names) {
+				my$i1=$i+1;
+				if($i1%$nfilas==1){
+					$newstring=$newstring.$names[$i];
+				}		
+			}
+			$c=$c+1;
+		}
+	print $newstring;
+}
 #-----------------------------------------------NUMERO 7------------------------------------------
 sub zigzag{
     my($texto,$altura)=@_;
@@ -768,4 +1092,57 @@ sub mono{
     }
     return $nuevoTexto;}
 #-----------------------------------------------NUMERO 9------------------------------------------
+sub poli{
+    my ($texto,$clave)=@_;
+    $texto=InvertirTexto($texto);
+    $clave=InvertirTexto($clave);
+    my $cantidadLetras=length($texto);
+    my $nuevoTexto="";
+    for (my $i=1;$i<=$cantidadLetras;$i++){
+        my $valorAsciiTexto=ord(chop($texto));
+        if ($valorAsciiTexto!=32){
+            my $valorAsciiClave=ord(chop($clave));
+            $clave=chr($valorAsciiClave).$clave;
+            if ($valorAsciiClave<=90 && $valorAsciiClave>=65){
+                $valorAsciiClave=$valorAsciiClave-65;
+            }else{
+                $valorAsciiClave=$valorAsciiClave-97;
+            }
+            if ($valorAsciiTexto<=90 && $valorAsciiTexto>=65){
+                $valorAsciiTexto=(($valorAsciiTexto-65+$valorAsciiClave)%26)+65;
+            }
+            if ($valorAsciiTexto<=122 && $valorAsciiTexto>=97){
+                $valorAsciiTexto=(($valorAsciiTexto-97+$valorAsciiClave)%26)+97;
+            }
+        }
+        $nuevoTexto=$nuevoTexto.chr($valorAsciiTexto);
+    }
+    $nuevoTexto;
+}sub Desencriptar{
+    my ($texto,$clave)=@_;
+    $texto=InvertirTexto($texto);
+    $clave=InvertirTexto($clave);
+    my $cantidadLetras=length($texto);
+    my $nuevoTexto="";
+    for (my $i=1;$i<=$cantidadLetras;$i++){
+        my $valorAsciiTexto=ord(chop($texto));
+        if ($valorAsciiTexto!=32){
+            my $char=chop($clave);
+            my $valorAsciiClave=ord($char);
+            $clave=chr($valorAsciiClave).$clave;
+            if ($valorAsciiClave<=90 && $valorAsciiClave>=65){
+                $valorAsciiClave=$valorAsciiClave-65;
+            }else{
+                $valorAsciiClave=$valorAsciiClave-97;
+            }
+            if ($valorAsciiTexto<=90 && $valorAsciiTexto>=65){
+                $valorAsciiTexto=(($valorAsciiTexto-65-$valorAsciiClave)%26)+65;
+            }
+            if($valorAsciiTexto<=122 && $valorAsciiTexto>=97){
+                $valorAsciiTexto=(($valorAsciiTexto-97-$valorAsciiClave)%26)+97;
+            }
+        }
+        $nuevoTexto=$nuevoTexto.chr($valorAsciiTexto);
+    }
+    $nuevoTexto;}
 #-------------------------------------------------------------------------------------------------

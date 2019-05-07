@@ -47,7 +47,30 @@ sub newPalabra{
 	#my $news=length($new);
 }
 
-sub Main{
+sub cifrarFilas{
+	my($mensaje1,$nfilas,$caracter)=@_;
+	my $c=0;
+	my $newstring="";
+	my $mensaje= newPalabra($mensaje1,$nfilas,$caracter);
+	my $longitud= length($mensaje);
+		while($c!=$nfilas){
+			my $newmensaje=$mensaje;
+			if($c!=0){
+				$newmensaje=substr($mensaje,$c,$longitud);
+			}	
+			my @names= split("",$newmensaje);
+			foreach my $i (0 .. $#names) {
+				$i1=$i+1;
+				if($i1%$nfilas==1){
+					$newstring=$newstring.$names[$i];
+				}		
+			}
+			$c=$c+1;
+		}
+	return $newstring;
+}
+
+sub descifrarFilas{
 	my($mensaje1,$nfilas,$caracter)=@_;
 	my $c=0;
 	my $newstring="";
@@ -69,14 +92,3 @@ sub Main{
 		}
 	print $newstring;
 }
-
-#Para encriptar:
-#$mensaje,$nfilas,$caracter
-Main("ALEJANDRA",5,"X");
-#Main("HOLACOMOESTAS",3,"X");
-
-#Para desencriptar:
-#$mensaje,$nfilas
-#Main("HBTECOCERHLIQOOATUMWBAIUU",5);
-#Main("ANLDERJAAX",2);
-#Main("HAMSSOCOTXLOEAX",5);
