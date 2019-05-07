@@ -5,7 +5,7 @@ use strict;
 use 5.010;#Para say
 use feature "switch";
 my$nuevoAlfabeto="rbcdefghijklmn".chr(195)."opqsatuvwxyz";
-my $texto="a";
+my $texto="ñ";
 my $nuevo=Mono($texto,$nuevoAlfabeto);
 say $nuevo;
 my$viejo=desMono($nuevo,$nuevoAlfabeto);
