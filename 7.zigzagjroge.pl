@@ -93,7 +93,6 @@ sub desZigzag{
     return $nuevoTexto;
 }
 
-
 sub divi{
     my ($a,$b)=@_;
     my$res=0;
