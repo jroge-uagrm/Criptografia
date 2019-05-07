@@ -24,7 +24,6 @@ sub generarAlfabeto{
 	}
 	$alfabetoG= $previa."".$previa2."\n";
 }
-
 sub generarAlfConPalD{
 	my ($palabra,$desplazamiento)=@_;
 	my $newpalabra=CadToArraySinR($palabra);

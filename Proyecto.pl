@@ -399,6 +399,17 @@ sub esAlfabeto{
     }
     return 1 eq 1;
 }
+sub esNumero(){
+    my($alfabeto)=@_;
+    my$n=length($alfabeto);my$cha;
+    for(my$i=1;$i<=$n;$i++){
+        $cha=chop($alfabeto);
+        if(ord($cha)<48||ord($cha)>57){
+            return 1 eq 2;
+        }
+    }
+    return 1 eq 1;
+}
 sub divi{
     my ($a,$b)=@_;
     my$res=0;
@@ -467,94 +478,146 @@ sub generarAlfConPalD{
 	#eliminamos repetidos 
 	my $nuevo_alf=CadToArraySinR($newpalabra1);
 }
-
+sub InvertirTexto{
+    my ($textoAInvertir)=@_;
+    my $cantidad=length($textoAInvertir);
+    my $textoInvertido="";
+    for (my $i=1;$i<=$cantidad;$i++){
+        $textoInvertido=$textoInvertido.chop($textoAInvertir);
+    }
+    $textoInvertido;
+}
 #-----------------------------------------------NUMERO 1------------------------------------------
 sub puro{
     my ($texto,$desplazar)=@_;
     my $cantidadLetras=length($texto);
-    my $nuevoTexto = "";
+    my $nuevoTexto="";
     for (my $i=1;$i<=$cantidadLetras;$i++){
         my $char=chop($texto);
         my $valorAscii=ord($char);
-        if ($valorAscii!=50){ #Si es diferente de espacio
-            if ($valorAscii==165){ #Si es la Ñ
-                $valorAscii=81;
-            }else{
-                if ($valorAscii==164){ #Si es la ñ
-                    $valorAscii=113;
-                }else{
-                    if ($valorAscii<=90 && $valorAscii>=65){ #Si es una letra mayuscula
-                        if ($valorAscii==76){ #Si es la L
-                            $valorAscii=165;
-                        }else{
-                            $valorAscii=(($valorAscii-65+$desplazar)% 26)+65;
-                            if ($valorAscii==80 || $valorAscii==81){ #Si es M o N
-                                $valorAscii=$valorAscii-1;
-                            }
-                        }
-                    }
-                    if ($valorAscii<=122 && $valorAscii>=97){
-                        if ($valorAscii==108){
-                            $valorAscii=164;
-                        }else{
-                            $valorAscii=(($valorAscii-97+$desplazar)% 26)+97;
-                            if($valorAscii==112 || $valorAscii==113){
-                                $valorAscii=$valorAscii-1;
-                            }                        
-                        }
-                    }
-                    
-                }
-            }
+        if ($valorAscii<=90 && $valorAscii>=65){
+            $valorAscii=(($valorAscii-65+$desplazar)% 26)+65;
         }
-        $nuevoTexto=chr($valorAscii).''.$nuevoTexto;
+        if ($valorAscii<=122 && $valorAscii>=97){
+            $valorAscii=(($valorAscii-97+$desplazar)% 26)+97;
+        }
+        $nuevoTexto=chr($valorAscii).$nuevoTexto;
     }
     $nuevoTexto;
 }sub desPuro{
-    my ($texto,$desplazar)=@_;
+    my($texto,$desplazar)=@_;
     my $cantidadLetras=length($texto);
-    my $nuevoTexto = "";
+    my $nuevoTexto="";
     for (my $i=1;$i<=$cantidadLetras;$i++){
         my $char=chop($texto);
         my $valorAscii=ord($char);
-        if ($valorAscii!=50){
-            if ($valorAscii==165){
-                $valorAscii=76;
-            }else{
-                if ($valorAscii==164){
-                    $valorAscii=108;
-                }else{
-                    if ($valorAscii<=90 && $valorAscii>=65){
-                        if ($valorAscii==81){
-                            $valorAscii=165;
-                        }else{
-                            $valorAscii=(($valorAscii-65-$desplazar)% 26)+65;
-                            if ($valorAscii==76 || $valorAscii==77){
-                                $valorAscii=$valorAscii+1;
-                            }
-                        }
-                    }
-                    if ($valorAscii<=122 && $valorAscii>=97){
-                        if ($valorAscii==113){
-                            $valorAscii=164;
-                        }else{
-                            $valorAscii=(($valorAscii-97-$desplazar)% 26)+97;
-                            if($valorAscii==108 || $valorAscii==109){
-                                $valorAscii=$valorAscii+1;
-                            }                        
-                        }
-                    }
-                    
-                }
-            }
+        if ($valorAscii<=90 && $valorAscii>=65){
+            $valorAscii=(($valorAscii-65-$desplazar)% 26)+65;
         }
-        $nuevoTexto=chr($valorAscii).''.$nuevoTexto;
+        if ($valorAscii<=122 && $valorAscii>=97){
+            $valorAscii=(($valorAscii-97-$desplazar)% 26)+97;
+        }
+        $nuevoTexto=chr($valorAscii).$nuevoTexto;
     }
     $nuevoTexto;}
 #-----------------------------------------------NUMERO 2------------------------------------------
 #-----------------------------------------------NUMERO 3------------------------------------------
 #-----------------------------------------------NUMERO 4------------------------------------------
+sub serie{
+    my($texto)=@_;
+    my$textoA="";my$textoB="";
+    if(mod(length($texto),2)==1){
+        $textoB=chop($texto);
+    }
+    my$n=length($texto);
+    for(my$i=1;$i<=divi($n,2);$i++){
+        $textoA=chop($texto).$textoA;
+        $textoB=chop($texto).$textoB;
+    }
+    my$nuevoTexto=$textoA.$textoB;
+    return $nuevoTexto;
+}sub desSerie{
+    my($texto)=@_;
+    my$textoA="";my$textoB="";
+    my$cha="";
+    if(mod(length($texto),2)==1){
+        $cha=chop($texto);
+    }
+    my$n=length($texto);
+    for(my$i=1;$i<=divi($n,2);$i++){
+        $textoA=$textoA.chop($texto);
+        $textoB=$textoB.chop($texto);
+    }
+    my$nuevoTexto=$textoB.$textoA.$cha;
+    return $nuevoTexto;}
+
 #-----------------------------------------------NUMERO 5------------------------------------------
+sub columnas{
+    my ($texto,$desplazar)=@_;
+    my $cantidadLetras=length($texto);
+    my $nuevoTexto="";
+    my $cantidad=0;
+    my $contador=0;
+    my @matriz;
+    for (my $i=1;$i<=$cantidadLetras;$i++){
+        my $char=chop($texto);
+        if ($contador<$desplazar){
+            push(@{$matriz[$cantidad]},$char);
+            $contador++;
+        }
+        if ($contador==$desplazar && length($texto)>0){
+            $cantidad++;
+            $contador=0;
+        }
+    }
+    $contador=0;
+    for (my $i=1;$i<=$cantidadLetras;$i++){
+        if ($contador<=$cantidad && scalar @{$matriz[$contador]}>0){
+            $nuevoTexto=$nuevoTexto.shift(@{$matriz[$contador]});
+            $contador++;
+        }else{
+            $cantidadLetras++;
+            $contador=0;
+        }
+        if ($contador>$cantidad){
+            $contador=0;
+        }
+    }
+    $nuevoTexto;
+}sub desColumnas{
+    my ($texto,$desplazar)=@_;
+    my $cantidadLetras=length($texto);
+    my $nuevoTexto="";
+    my $cantidad=$cantidadLetras/$desplazar;
+    my $avanzar=0;
+    my @array;
+    for (my $i=1;$i<=$desplazar;$i++){
+        my $contador=0;
+        my $char="";
+        while ($contador<$cantidad){
+            $char=$char.chop($texto);
+            $contador++;
+            if (length($texto)<=$desplazar-$avanzar-1){
+                $contador++;
+            }
+        }
+        push(@array,$char);
+        $avanzar++;
+    }
+    my $contador=0;
+    while ($contador<$cantidad){
+        for (my $i=0;$i<$desplazar;$i++){ 
+            my $char=shift(@array);
+            if (length($char)!=0){
+                $char=InvertirTexto($char);
+                $nuevoTexto=$nuevoTexto.chop($char);
+                $char=InvertirTexto($char);
+                push(@array,$char);
+            }
+        }
+        $contador++;
+    }
+    $nuevoTexto;}
 #-----------------------------------------------NUMERO 6------------------------------------------
 #-----------------------------------------------NUMERO 7------------------------------------------
 sub zigzag{
