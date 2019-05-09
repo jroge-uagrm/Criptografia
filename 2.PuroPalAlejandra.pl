@@ -1,4 +1,4 @@
-<<<<<<< HEAD:2.PuroPalabraAlejandra.pl
+#<<<<<<< HEAD:2.PuroPalabraAlejandra.pl
 ###############################################################################
 sub CadToArraySinR{
 	my ($palabra)= @_;

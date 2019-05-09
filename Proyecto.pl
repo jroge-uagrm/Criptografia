@@ -6,10 +6,6 @@ use 5.010;#Para say
 use feature "switch";
 use feature qw( switch );
 no if $] >= 5.018, warnings => qw( experimental::smartmatch );
-# my$dfghj=chr(164);
-# my$qqq=chop($dfghj);
-# say $qqq;
-# say ord($qqq);
 print"\n-------------------------------------------------\n";
 print"PROYECTO#1 DE CRIPTOGRAFIA Y SEGURIDAD         ||";
 my $op;my$n;my$correcto;
@@ -29,7 +25,7 @@ while($iniciar==1){
         print "SELECCIONA UNA OPCION: ";chomp ($op=<STDIN>);
         $correcto=0;
         given($op){
-            when($_ eq "1"){                    #ARCHIVO-ENCRIPTAR
+            when($_ eq "1"){
                 while($correcto==0){
                     print"-----------------------------------------------||\n";
                     print "RUTA DE LA CARPETA DEL ARCHIVO: ";
@@ -56,11 +52,11 @@ while($iniciar==1){
                 }
                 $op=1;
             }
-            when($_ eq "2"){                    #TEXTO-ENCRIPTAR
+            when($_ eq "2"){
                 print "\nIntroducir texto: ";chomp ($contenido=<STDIN>);
                 $op=1;
             }
-            when($_ eq "3"){                    #ARCHIVO-DESENCRIPTAR
+            when($_ eq "3"){
                 while($correcto==0){
                     print"-----------------------------------------------||\n";
                     print "RUTA DE LA CARPETA DEL ARCHIVO: ";
@@ -87,7 +83,7 @@ while($iniciar==1){
                 }
                 $op=2;
             }
-            when($_ eq "4"){                    #TEXTO-DESENCRIPTAR
+            when($_ eq "4"){
                 print "\nIntroducir texto: ";chomp ($contenido=<STDIN>);
                 $op=2;
             }
@@ -238,6 +234,61 @@ while($iniciar==1){
                                         $correcto=0;
                                     }
                                 }
+                            }
+                            when($_ eq "3"){
+                                $op=1;
+                                $correcto=0;
+                                while($correcto==0){
+                                    print "-----------------------------------------------||\n";
+                                    print "3. TRANSPOSICION POR GRUPOS\n";
+                                    print "Introduzca el grupo: ";chomp($palabraClave=<STDIN>);
+                                    if(esPalabra($palabraClave)){
+                                        $correcto=1;
+                                        print "-----------------------------------------------||\n";
+                                        print "ARCHIVO ";
+                                        if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
+                                        if(length($contenido)>0){
+                                            if($en==1){
+                                                say grupos($contenido,$palabraClave);
+                                            }else{
+                                                say desGrupos($contenido,$palabraClave);
+                                            }
+                                        }else{
+                                            my$archivoAux;my$nombreArchivoAux;
+                                            if($en==1){
+                                                $nombreArchivoAux=$nombreArchivo."ENCRIPTADO";
+                                            }else{
+                                                $nombreArchivoAux=$nombreArchivo."DESENCRIPTADO";
+                                            }
+                                            my$direccionAux=$ruta."/".$nombreArchivoAux.".txt";
+                                            open($archivoAux,">$direccionAux");
+                                            print$archivoAux "";
+                                            close($archivoAux);
+                                            open($archivoAux,">>$direccionAux");
+                                            open($archivo,"<$direccion");
+                                            while(<$archivo>){
+                                                        chomp;
+                                                    $contenido= $_;
+                                                    my$encriptacion;
+                                                    if($en==1){
+                                                        $encriptacion=grupos($contenido,$palabraClave,$n);
+                                                    }else{
+                                                        $encriptacion=desGrupos($contenido,$palabraClave,$n);
+                                                    }
+                                                    say$encriptacion;
+                                                    print $archivoAux $encriptacion."\n";
+                                            }
+                                            close($archivo);
+                                            close($archivoAux);
+                                            print "-----------------------------------------------||\n";
+                                        }
+                                    }else{
+                                        print"-------------------------------------------------\n";
+                                        print "DATO INCORRECTO\n";
+                                        print"-------------------------------------------------\n";
+                                        $correcto=0;
+                                    }
+                                }  
                             }
                             when($_ eq "4"){
                                 $op=1;
@@ -672,18 +723,6 @@ sub charIn{
         }
     }
 }
-sub generarAlfConPalD{
-	my ($palabra,$desplazamiento)=@_;
-	my $newpalabra=CadToArraySinR($palabra);
-	my $alfabetoD=generarAlfabeto($desplazamiento);
-	my $newpalabra1="";
-	
-	#concatenamos
-	$newpalabra1=$newpalabra.$alfabetoD;
-	
-	#eliminamos repetidos 
-	my $nuevo_alf=CadToArraySinR($newpalabra1);
-}
 sub InvertirTexto{
     my ($textoAInvertir)=@_;
     my $cantidad=length($textoAInvertir);
@@ -739,7 +778,119 @@ sub newPalabra{
 	}
 	#my $news=length($new);
 }
+sub separa{
+    my ($mensaje)=@_;
+    #my $mensaje="HOLACOMOESTAS";
+    #my $mensaje="HOLACO";
+    #my $mensaje="ANALUCIA";
+    #my $mensaje="ALEJANDRA";
+    my $newstring="";
+	my @names= split("",$mensaje);
+	foreach my $i (0 .. $#names) {
+		#say "$i - $names[$i]";
+		my$i1=$i+1;
+		if($i1%2==1){
+			$newstring=$newstring.$names[$i];
+		}
+	}
+	foreach my $i (0 .. $#names) {
+		#say "$i - $names[$i]";
+		my$i1=$i+1;
+		if($i1%2==0){
+			$newstring=$newstring.$names[$i];
+		}
+	}
+	return $newstring;
+}
+sub interc{
+	my ($mensaje)=@_;
+	my $longitud= length($mensaje);
+	my $par="";
+	my $impar="";
+	my $newstring="";
+	my $nueva_cadena="";
 
+		if($longitud%2==0){ #es par
+			my $longitud2= $longitud/2;
+			$impar=substr($mensaje,0,$longitud2);
+			$par= substr($mensaje,$longitud2,$longitud);
+			while($longitud2!=0){
+				my $char= chop($impar);
+				my $char2= chop($par);
+				$nueva_cadena=$nueva_cadena.$char2.$char;
+				$longitud2=$longitud2-1;
+			}
+		}else{ #es impar
+			my $longitudn= $longitud/2;
+			my $longitud2= $longitudn+1;
+			$impar=substr($mensaje,0,$longitud2);
+			$par= substr($mensaje,$longitud2,$longitud);
+			while($longitudn!=0){
+				my $char= chop($impar);
+				my $char2= chop($par);
+				$nueva_cadena=$nueva_cadena.$char.$char2;
+				$longitudn=$longitudn-1;
+			}
+			$nueva_cadena=$nueva_cadena.$impar;
+		}	
+		my $newlength= length($nueva_cadena);
+			while ($newlength!=0){
+				my $char3= chop($nueva_cadena);
+				$newstring=$newstring.$char3;
+				$newlength=$newlength-1;
+			}
+	return $newstring;
+}
+sub generarAlfabeto{
+	my($desplazamiento)=@_;
+	my $alfabeto="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	my $cantEle=length($alfabeto);
+	my $previa2="";
+    my $previa="";
+    my $alfabetoG="";
+	if ($desplazamiento<=$cantEle){
+		$previa=substr($alfabeto,$desplazamiento,$cantEle);
+		$previa2=substr($alfabeto,0,$desplazamiento);
+	}else{
+		my $nuevapos= $desplazamiento % $cantEle;
+		$previa=substr($alfabeto,$nuevapos+1,$cantEle);
+		$previa2=substr($alfabeto,0,$nuevapos+1);
+	}
+	$alfabetoG= $alfabetoG.$previa."".$previa2;
+	return $alfabetoG;
+}
+sub generarAlfConPalD{
+	my ($palabra,$desplazamiento)=@_;
+	#
+	my @arreglo= split("",$palabra);
+	my @nuevo_array=();
+	my @visto_antes=@arreglo;
+	foreach  my $caracter ( @arreglo ) {
+		#push @nuevo_array, $caracter if not $visto_antes{$caracter}++;
+	}
+	my $string = join("",@nuevo_array);
+	#
+	my $newpalabra=$string;
+
+	my $alfabetoD=generarAlfabeto($desplazamiento);
+	my $newpalabra1="";
+	
+	#concatenamos
+	$newpalabra1=$newpalabra.$alfabetoD;
+	
+	#eliminamos repetidos
+		#
+	my @arreglo1= split("",$newpalabra1);
+	my @nuevo_array1=();
+	my @visto_antes1=@arreglo1;
+	foreach  my $caracter1 ( @arreglo1 ) {
+		#push @nuevo_array1, $caracter1 if not $visto_antes1{$caracter1}++;
+	}
+	my $string1 = join("",@nuevo_array1);
+	#
+	my $nuevo_alf=$string1;
+	return $nuevo_alf;
+}
 #-----------------------------------------------NUMERO 1------------------------------------------
 sub puro{
     my ($texto,$desplazar)=@_;
@@ -794,7 +945,7 @@ sub puroPalabra{
 		}
 
 	return $newcad;
-}sub descifrarCesarP{
+}sub desPuroPalabra{
 	my ($mensaje,$palabra,$desplazamiento)=@_;
 	#utilizando el split para separar letra por letra 
 	my @names= split("",$mensaje);
@@ -815,8 +966,73 @@ sub puroPalabra{
 	
 	return $newcad;}
 #-----------------------------------------------NUMERO 3------------------------------------------
-
-
+sub grupos{
+	my ($mensaje,$ngrupos)=@_;
+	my $longitud=length($mensaje);
+	my $mod=$longitud%$ngrupos;
+	my $new=$mensaje;
+	my $newstring="";
+	my $auxcad="";
+	my $subcads1="";
+		if($mod!=0){
+			my $substring="";
+			my $caracter="X";
+			my $ntotalaux=$ngrupos-$mod;
+			while($ntotalaux!=0){
+				$substring=$substring.$caracter;
+				$ntotalaux=$ntotalaux-1;
+			}
+			$new=$mensaje.$substring;
+			$longitud=length($new);
+		}
+		my $c=0;
+		my $contador=$longitud/$ngrupos;
+		my $subcads="";
+		while($contador!=0){
+			if($c==0){
+				$subcads=substr($new,0,$ngrupos);
+				$subcads1=separa($subcads);
+			}else{
+				my $ult= $ngrupos;
+				$subcads=substr($new,$c,$ult);
+				$subcads1=separa($subcads);
+			}
+			$auxcad=$auxcad.$subcads1." ";
+			$c=$c+$ngrupos;
+			$contador=$contador-1;
+		}
+	return $auxcad;
+}sub desGrupos{
+	my ($mensaje,$ngrupos)=@_;
+	#my $mensaje="HOLACOMOESTAS";
+	#my $mensaje="ANALUCIA";
+	#my $mensaje="ALEJANDRA";
+	#my $mensaje="MICIELOESAZULCOMOELMARAZUL";
+	my $longitud=length($mensaje);
+	#my $ngrupos=2;
+	my $mod=$longitud%$ngrupos;
+	my $new=$mensaje;
+	my $newstring="";
+	my $auxcad="";
+	my $subcads1="";
+	
+		my $c=0;
+		my $contador=$longitud/$ngrupos;
+		my $subcads="";
+		while($contador!=0){
+			if($c==0){
+				$subcads=substr($new,0,$ngrupos);
+				$subcads1=interc($subcads);
+			}else{
+				my $ult= $ngrupos;
+				$subcads=substr($new,$c,$ult);
+				$subcads1=interc($subcads);
+			}
+			$auxcad=$auxcad.$subcads1;
+			$c=$c+$ngrupos;
+			$contador=$contador-1;
+		}
+	return $auxcad;}
 #-----------------------------------------------NUMERO 4------------------------------------------
 sub serie{
     my($texto)=@_;
@@ -838,12 +1054,15 @@ sub serie{
     if(mod(length($texto),2)==1){
         $cha=chop($texto);
     }
-    my$n=length($texto);
+    my$n=length($texto);my$nuevoTexto="";
     for(my$i=1;$i<=divi($n,2);$i++){
-        $textoA=$textoA.chop($texto);
-        $textoB=$textoB.chop($texto);
+        $textoB=chop($texto).$textoB;
     }
-    my$nuevoTexto=$textoB.$textoA.$cha;
+    for(my$i=1;$i<=divi($n,2);$i++){
+        $nuevoTexto=chop($texto).$nuevoTexto;
+        $nuevoTexto=chop($textoB).$nuevoTexto;
+    }
+    $nuevoTexto=$nuevoTexto.$cha;
     return $nuevoTexto;}
 
 #-----------------------------------------------NUMERO 5------------------------------------------
@@ -955,8 +1174,7 @@ sub filas{
 			}
 			$c=$c+1;
 		}
-	print $newstring;
-}
+	print $newstring;}
 #-----------------------------------------------NUMERO 7------------------------------------------
 sub zigzag{
     my($texto,$altura)=@_;
@@ -993,13 +1211,28 @@ sub zigzag{
         push@palabras,chop($texto);
         $canPal++;
     }
+    my$exc=0;
+    if(length($texto)+$altura-2>divi($n+$salto-1,$salto)){
+        $exc=(divi($n+$salto-1,$salto)+1)*$salto-$salto+1-length($texto);
+        push@palabras,"";
+    }
     my$k=0;my$indice;
     while($k<$altura-2){
         my$divS=divi($n+$k,$salto);
         my$divO=divi($n-$k-2,$salto)+1;
-        my$bulean=1;$indice=0;my$indice2=$canPal;
-        if($divO==$divS){$bulean=0;$indice=1;$indice2=$canPal}
+        my$bulean=1;$indice=0;my$vari=1;my$indice2;
+        if($exc==0){
+            $indice2=$canPal;
+        }else{
+            $indice2=$canPal+1;
+        }
+        if($divO==$divS){$bulean=0;$indice=1;$indice2=$canPal;}
         for(my$i=1;$i<=$divS+$divO;$i++){
+            if($vari>=$exc && $i==1){
+                my$conte=$palabras[$canPal];
+                $conte=chop($texto).$conte;
+                $palabras[$indice2]=$conte;
+            }
             if($bulean==0){
                 if($k==0){
                     push@palabras,chop($texto);
@@ -1017,10 +1250,14 @@ sub zigzag{
                 $indice++;
                 $bulean=0;
             }
-        }
+        }$vari++;
         $k++;
     }
-    $indice=$canPal;
+    if($exc==0){
+        $indice=$canPal;
+    }else{
+        $indice=$canPal+1;
+    }
     for(my$l=1;$l<=divi($n,$altura+$salto)+1;$l++){
         my$conte=$palabras[$indice];
         $conte=chop($texto).$conte;
@@ -1132,7 +1369,7 @@ sub poli{
         $nuevoTexto=$nuevoTexto.chr($valorAsciiTexto);
     }
     $nuevoTexto;
-}sub Desencriptar{
+}sub desPoli{
     my ($texto,$clave)=@_;
     $texto=InvertirTexto($texto);
     $clave=InvertirTexto($clave);
