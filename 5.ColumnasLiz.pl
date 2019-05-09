@@ -11,16 +11,15 @@ print "Introducir texto : ";
 my $desplazar=5;
 my $texto=<STDIN>;
 chomp($texto);
-$texto=InvertirTexto($texto);
 my $nuevo=Columnas2($texto,$desplazar);
 say $nuevo;
 
-$nuevo=InvertirTexto($nuevo);
 my $desencriptado=Desencriptar2($nuevo,$desplazar);
 say $desencriptado;
 
 sub Columnas2{
     my ($texto,$desplazar)=@_;
+    $texto=InvertirTexto($texto);
     my $cantidadLetras=length($texto);
     my $nuevoTexto="";
     my $cantidad=0;
@@ -55,6 +54,7 @@ sub Columnas2{
 
 sub Desencriptar2{
     my ($texto,$desplazar)=@_;
+    $texto=InvertirTexto($texto);
     my $cantidadLetras=length($texto);
     my $nuevoTexto="";
     my $cantidad=$cantidadLetras/$desplazar;
