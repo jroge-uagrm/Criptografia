@@ -198,9 +198,9 @@ while($iniciar==1){
                                         if($en==1){print"ENCRIPTADO!\n\n";}else{print"DESENCRIPTADO!\n\n";}
                                         if(length($contenido)>0){
                                             if($en==1){
-                                                #NUMERO 2   
+                                                say puroPalabra($contenido,$palabraClave,$n);
                                             }else{
-                                                #NUMERO 2
+                                                say desPuroPalabra($contenido,$palabraClave,$n);
                                             }
                                         }else{
                                             my$archivoAux;my$nombreArchivoAux;
@@ -220,12 +220,12 @@ while($iniciar==1){
                                                     $contenido= $_;
                                                     my$encriptacion;
                                                     if($en==1){
-                                                        #$encriptacion=NUMERO 1
+                                                        $encriptacion=puroPalabra($contenido,$palabraClave,$n);
                                                     }else{
-                                                        #$encriptacion=NUMERO 1
+                                                        $encriptacion=desPuroPalabra($contenido,$palabraClave,$n);
                                                     }
-                                                    #say$encriptacion;
-                                                    #print $archivoAux $encriptacion."\n";
+                                                    say$encriptacion;
+                                                    print $archivoAux $encriptacion."\n";
                                             }
                                             close($archivo);
                                             close($archivoAux);
@@ -282,6 +282,7 @@ while($iniciar==1){
                                             close($archivoAux);
                                             print "-----------------------------------------------||\n";
                                         }
+                                        $correcto=1;
                                 }
                             }
                             when($_ eq "5"){
@@ -621,6 +622,19 @@ sub esNumero(){
         $cha=chop($alfabeto);
         if(ord($cha)<48||ord($cha)>57){
             return 1 eq 2;
+        }
+    }
+    return 1 eq 1;
+}
+sub esPalabra(){
+    my($alfabeto)=@_;
+    my$n=length($alfabeto);my$cha;
+    for(my$i=1;$i<=$n;$i++){
+        $cha=chop($alfabeto);
+        if(ord($cha)<65||(ord($cha)>90&&ord($cha)<97)||ord($cha)>122){
+            if(ord($cha)!=165&&ord($cha)!=164){
+                return 1 eq 2;
+            }
         }
     }
     return 1 eq 1;
