@@ -242,7 +242,7 @@ while($iniciar==1){
                                     print "-----------------------------------------------||\n";
                                     print "3. TRANSPOSICION POR GRUPOS\n";
                                     print "Introduzca el grupo: ";chomp($palabraClave=<STDIN>);
-                                    if(esPalabra($palabraClave)){
+                                    if(esNumero($palabraClave)){
                                         $correcto=1;
                                         print "-----------------------------------------------||\n";
                                         print "ARCHIVO ";
@@ -859,37 +859,19 @@ sub generarAlfabeto{
 	$alfabetoG= $alfabetoG.$previa."".$previa2;
 	return $alfabetoG;
 }
+
 sub generarAlfConPalD{
 	my ($palabra,$desplazamiento)=@_;
-	#
-	my @arreglo= split("",$palabra);
-	my @nuevo_array=();
-	my @visto_antes=@arreglo;
-	foreach  my $caracter ( @arreglo ) {
-		#push @nuevo_array, $caracter if not $visto_antes{$caracter}++;
-	}
-	my $string = join("",@nuevo_array);
-	#
-	my $newpalabra=$string;
-
+	my $newpalabra=$palabra;
 	my $alfabetoD=generarAlfabeto($desplazamiento);
 	my $newpalabra1="";
 	
 	#concatenamos
 	$newpalabra1=$newpalabra.$alfabetoD;
 	
-	#eliminamos repetidos
-		#
-	my @arreglo1= split("",$newpalabra1);
-	my @nuevo_array1=();
-	my @visto_antes1=@arreglo1;
-	foreach  my $caracter1 ( @arreglo1 ) {
-		#push @nuevo_array1, $caracter1 if not $visto_antes1{$caracter1}++;
-	}
-	my $string1 = join("",@nuevo_array1);
-	#
-	my $nuevo_alf=$string1;
-	return $nuevo_alf;
+	#eliminamos repetidos 
+	my $nuevo_alf=$newpalabra1;
+    return $nuevo_alf;
 }
 #-----------------------------------------------NUMERO 1------------------------------------------
 sub puro{
@@ -1068,6 +1050,7 @@ sub serie{
 #-----------------------------------------------NUMERO 5------------------------------------------
 sub columnas{
     my ($texto,$desplazar)=@_;
+    $texto=InvertirTexto($texto);
     my $cantidadLetras=length($texto);
     my $nuevoTexto="";
     my $cantidad=0;
@@ -1100,6 +1083,7 @@ sub columnas{
     $nuevoTexto;
 }sub desColumnas{
     my ($texto,$desplazar)=@_;
+    $texto=InvertirTexto($texto);
     my $cantidadLetras=length($texto);
     my $nuevoTexto="";
     my $cantidad=$cantidadLetras/$desplazar;
